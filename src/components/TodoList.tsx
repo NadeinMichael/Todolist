@@ -1,4 +1,5 @@
 import { TodoItem } from './TodoItem';
+import { FilterValuesType } from '../App';
 
 export type TaskType = {
   id: number;
@@ -9,11 +10,16 @@ export type TaskType = {
 type PropsType = {
   title: string;
   tasks: Array<TaskType>;
+  removeTask: (id: number) => void;
+  changeFilter: (value: FilterValuesType) => void;
 };
 
-export function TodoList({ title, tasks }: PropsType) {
-  console.log(tasks);
-
+export function TodoList({
+  title,
+  tasks,
+  removeTask,
+  changeFilter,
+}: PropsType) {
   return (
     <div>
       <h3>{title}</h3>
@@ -23,13 +29,31 @@ export function TodoList({ title, tasks }: PropsType) {
       </div>
       <ul>
         {tasks.map((task) => (
-          <TodoItem key={task.id} {...task} />
+          <TodoItem key={task.id} {...task} removeTask={removeTask} />
         ))}
       </ul>
       <div>
-        <button>All</button>
-        <button>Active</button>
-        <button>Complited</button>
+        <button
+          onClick={() => {
+            changeFilter('all');
+          }}
+        >
+          All
+        </button>
+        <button
+          onClick={() => {
+            changeFilter('active');
+          }}
+        >
+          Active
+        </button>
+        <button
+          onClick={() => {
+            changeFilter('completed');
+          }}
+        >
+          Completed
+        </button>
       </div>
     </div>
   );
