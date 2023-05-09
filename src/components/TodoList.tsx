@@ -9,16 +9,19 @@ export type TaskType = {
 };
 
 type PropsType = {
+  id: string;
   title: string;
   tasks: Array<TaskType>;
-  removeTask: (id: string) => void;
-  changeFilter: (value: FilterValuesType) => void;
-  addTask: (title: string) => void;
-  changeStatus: (taskId: string, isDone: boolean) => void;
+  removeTask: (id: string, todoListId: string) => void;
+  changeFilter: (value: FilterValuesType, todoListId: string) => void;
+  addTask: (title: string, todoListId: string) => void;
+  changeStatus: (taskId: string, isDone: boolean, todoListId: string) => void;
   filter: FilterValuesType;
+  removeTodoList: (todoListId: string) => void;
 };
 
 export function TodoList({
+  id,
   title,
   tasks,
   removeTask,
@@ -26,6 +29,7 @@ export function TodoList({
   addTask,
   changeStatus,
   filter,
+  removeTodoList,
 }: PropsType) {
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -42,23 +46,28 @@ export function TodoList({
   };
 
   const addNewTask = () => {
-    if (newTaskTitle.trim() !== '') {
-      addTask(newTaskTitle.trim());
+    if (newTaskTitle.trim().length) {
+      addTask(newTaskTitle.trim(), id);
       setNewTaskTitle('');
     } else {
       setError('Title is required');
     }
   };
 
-  const onAllTasksClickHandler = () => changeFilter('all');
+  const onAllTasksClickHandler = () => changeFilter('all', id);
 
-  const onActiveTasksClickHandler = () => changeFilter('active');
+  const onActiveTasksClickHandler = () => changeFilter('active', id);
 
-  const onCompletedTasksClickHandler = () => changeFilter('completed');
+  const onCompletedTasksClickHandler = () => changeFilter('completed', id);
+  const onRemoveTodoList = () => {
+    removeTodoList(id);
+  };
 
   return (
     <div>
-      <h3>{title}</h3>
+      <h3>
+        {title} <button onClick={onRemoveTodoList}>X</button>
+      </h3>
       <div>
         <input
           className={error ? 'error' : ''}
@@ -76,6 +85,7 @@ export function TodoList({
             {...task}
             removeTask={removeTask}
             changeStatus={changeStatus}
+            todoListId={id}
           />
         ))}
       </ul>

@@ -5,8 +5,9 @@ type ItemType = {
   title: string;
   isDone: boolean;
   removeTask: Function;
-  changeStatus: (taskId: string, isDone: boolean) => void;
+  changeStatus: (taskId: string, isDone: boolean, todoListId: string) => void;
   key: string;
+  todoListId: string;
 };
 
 export function TodoItem({
@@ -15,10 +16,11 @@ export function TodoItem({
   title,
   removeTask,
   changeStatus,
+  todoListId,
 }: ItemType) {
-  const onRemoveTaskHandler = () => removeTask(id);
+  const onRemoveTaskHandler = () => removeTask(id, todoListId);
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    changeStatus(id, e.currentTarget.checked);
+    changeStatus(id, e.currentTarget.checked, todoListId);
   };
 
   return (
