@@ -1,5 +1,7 @@
 import { ChangeEvent } from 'react';
 import { EditableSpan } from './EditableSpan';
+import { Checkbox, IconButton } from '@mui/material';
+import { Delete } from '@mui/icons-material';
 
 type ItemType = {
   id: string;
@@ -30,14 +32,16 @@ export function TodoItem({
   };
 
   return (
-    <li className={isDone ? 'is-done' : ''}>
-      <input
-        type="checkbox"
-        onChange={onChangeStatusHandler}
-        checked={isDone}
-      />
+    <div className={isDone ? 'is-done' : ''}>
+      <Checkbox onChange={onChangeStatusHandler} checked={isDone} />
       <EditableSpan title={title} onChange={onChangeTitleHandler} />
-      <button onClick={onRemoveTaskHandler}>x</button>
-    </li>
+      <IconButton
+        aria-label='delete'
+        onClick={onRemoveTaskHandler}
+        size={'small'}
+      >
+        <Delete fontSize='inherit' />
+      </IconButton>
+    </div>
   );
 }

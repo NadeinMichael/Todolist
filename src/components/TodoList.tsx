@@ -2,6 +2,8 @@ import { TodoItem } from './TodoItem';
 import { FilterValuesType } from '../App';
 import { AddItemForm } from './AddItemForm';
 import { EditableSpan } from './EditableSpan';
+import { Button, IconButton } from '@mui/material';
+import { Delete } from '@mui/icons-material';
 
 export type TaskType = {
   id: string;
@@ -58,10 +60,16 @@ export function TodoList({
     <div>
       <h3>
         <EditableSpan title={title} onChange={onChangeTodoListTitle} />{' '}
-        <button onClick={onRemoveTodoList}>x</button>
+        <IconButton
+          aria-label='delete'
+          onClick={onRemoveTodoList}
+          size={'small'}
+        >
+          <Delete fontSize='small' />
+        </IconButton>
       </h3>
       <AddItemForm addItem={addNewTask} />
-      <ul>
+      <div>
         {tasks.map((task) => (
           <TodoItem
             key={task.id}
@@ -72,26 +80,32 @@ export function TodoList({
             changeTaskTitle={changeTaskTitle}
           />
         ))}
-      </ul>
+      </div>
       <div>
-        <button
-          className={filter === 'all' ? 'active-filter' : ''}
+        <Button
+          color={'inherit'}
+          variant={filter === 'all' ? 'contained' : 'text'}
           onClick={onAllTasksClickHandler}
+          size={'small'}
         >
           All
-        </button>
-        <button
-          className={filter === 'active' ? 'active-filter' : ''}
+        </Button>
+        <Button
+          size={'small'}
+          color={'primary'}
+          variant={filter === 'active' ? 'contained' : 'text'}
           onClick={onActiveTasksClickHandler}
         >
           Active
-        </button>
-        <button
-          className={filter === 'completed' ? 'active-filter' : ''}
+        </Button>
+        <Button
+          size={'small'}
+          color={'secondary'}
+          variant={filter === 'completed' ? 'contained' : 'text'}
           onClick={onCompletedTasksClickHandler}
         >
           Completed
-        </button>
+        </Button>
       </div>
     </div>
   );
