@@ -1,3 +1,5 @@
 # Todolist
 
-А simple to-do list app using React and TypeScript
+Todo list app using: 
+##React
+##TypeScript
